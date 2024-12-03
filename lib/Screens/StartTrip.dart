@@ -42,193 +42,258 @@ class _StartTripState extends State<StartTrip> {
         final shouldpop = await showWairing(context);
         return shouldpop ?? false;
       },
-      child: Scaffold(
+          child: Scaffold(
           appBar: AppBar(
-            backgroundColor: HexColor('#BD0006'),
-            elevation: 0.0,
-            titleSpacing: 0.0,
-            title: Align(
-            alignment: Alignment.topLeft,
-            child: InkWell(
-              onTap: () async {
-                Widget AcceptButton = TextButton(
-                    onPressed: () {
-                      Logout();
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text("Logged out",
-                            style: TextStyle(
-                                color: HexColor('#F5F5F5'),
-                                fontWeight: FontWeight.bold)),
-                      ));
-                    },
-                    child: Text('Yes',
-                        style: TextStyle(
+          backgroundColor: HexColor('#9e1510'),
+          elevation: 0.0,
+          titleSpacing: 0.0,
+          title: Align(
+          alignment: Alignment.topLeft, // Aligns the title to the top left
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(20.0),
+                  child: InkWell(
+                    onTap: () async {
+                      // Define Accept and Reject buttons
+                      Widget acceptButton = TextButton(
+                        onPressed: () {
+                          // Call the Logout function on accept
+                          Logout();
+                        },
+                        child: Text(
+                          'Yes',
+                          style: TextStyle(
                             color: HexColor('#BD0006'),
                             fontSize: 16,
-                            fontWeight: FontWeight.bold)));
-                Widget RejectButton = TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text('No',
-                        style: TextStyle(
-                            color: HexColor('#BD0006'),
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold)));
-
-                // set up the AlertDialog
-                AlertDialog alert = AlertDialog(
-                  backgroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                  ),
-                  contentPadding: EdgeInsets.all(30),
-                  title: Text(
-                    "Logout",
-                    style: TextStyle(
-                        color: HexColor('#BD0006'),
-                        fontSize: 19,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  content: Text(
-                    'Are you sure to logout from application ?',
-                    style: TextStyle(fontSize: 14),
-                  ),
-                  actions: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        AcceptButton,
-                        SizedBox(
-                          width: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                        RejectButton,
+                      );
+
+                      Widget rejectButton = TextButton(
+                        onPressed: () {
+                          Navigator.pop(context); // Close the dialog on reject
+                        },
+                        child: Text(
+                          'No',
+                          style: TextStyle(
+                            color: HexColor('#BD0006'),
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      );
+
+                      // Set up the container with gradient background
+                      Container customDialog = Container(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                // Add gradient background for a smooth transition of colors
+                                colors: [
+                                  Colors.white,
+                                  Colors.white,
+                                ], // Define two gradient colors (red to orange)
+                                begin: Alignment
+                                    .topLeft, // Start of gradient (top-left)
+                                end: Alignment
+                                    .bottomRight, // End of gradient (bottom-right)
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(
+                                      0.2), // Soft shadow with some transparency
+                                  offset: Offset(0,
+                                      4), // Shadow positioned slightly below the container
+                                  blurRadius:
+                                      6, // Makes the shadow softer and spread out
+                                  spreadRadius:
+                                      2, // Makes the shadow expand
+                                ),
+                              ],
+                              borderRadius:
+                                  BorderRadius.circular(15),
+                            ),
+                        padding: EdgeInsets.all(20),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment:CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Logout",
+                              style: TextStyle(
+                                color: HexColor('#BD0006'),
+                                fontSize: 19,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: 20), // Space between title and content
+                            Text(
+                              'Are you sure you want to logout from the application?',
+                              style: TextStyle(color: Colors.black,fontSize: 14,fontWeight: FontWeight.bold,),
+                              textAlign: TextAlign.center,
+                            ),
+                            SizedBox(height: 20), // Space between content and buttons
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                // Accept Button
+                                acceptButton,
+                                SizedBox(width: 12),
+                                // Reject Button
+                                rejectButton,
+                              ],
+                            ),
+                          ],
+                        ),
+                      );
+
+                      // Show the custom dialog inside a modal bottom sheet or overlay
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return Dialog(
+                            backgroundColor: Colors.transparent, // Transparent background
+                            child: customDialog, // Show the custom container as the dialog
+                          );
+                        },
+                      );
+                    },
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.logout,
+                          color: Colors.white,
+                          size: 30.0,
+                        ),
+                        SizedBox(width: 8), // Add spacing between icon and text
+                        Text(
+                          'Logout',
+                          style: TextStyle(
+                            fontFamily: 'Cairo-ExtraLight',
+                            fontSize: 16,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
                       ],
-                    )
-                  ],
-                );
-                // show the dialog
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return alert;
-                  },
-                );
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(20.0),
-                      child: Icon(
-                        Icons.logout,
-                        color: Colors.white,
-                        size: 30.0,
-                      ),
                     ),
-                    Text(
-                      'Logout',
-                      style: TextStyle(
-                          fontFamily: 'Cairo-ExtraLight',
-                          fontSize: 16,
-                          fontWeight: FontWeight.w800),
-                    )
-                  ],
+                  ),
                 ),
-              ),
-            ),
+              ],
+            )
           ),
-            automaticallyImplyLeading: false,
-            flexibleSpace: SafeArea(
-              child: Align(
-                alignment: Alignment.center,
+        ),                                          
+    automaticallyImplyLeading: false,
+    flexibleSpace: SafeArea(
+      child: Align(
+        alignment: Alignment.center,
+        child: Text(
+          "Start Trip",
+          style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 20),
+        ),
+      ),
+    ),
+  ),
+  
+  body: Container(
+    decoration: BoxDecoration(
+    ),
+    child: Align(
+      alignment: Alignment.center,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Lottie.asset('assets/images/lottie2.json'),
+          SizedBox(height: 30),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: HexColor('#9e1510'),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0),
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+              elevation: 10,
+              shadowColor: Colors.black.withOpacity(0.3),
+            ),
+            onPressed: () {
+              // Define the buttons for the dialog
+              Widget cancelButton = TextButton(
                 child: Text(
-                  "Start Trip",
+                  "نعم",
                   style: TextStyle(
-                      color: Colors.white,
+                      color: HexColor('#BD0006'),
                       fontWeight: FontWeight.bold,
                       fontSize: 20),
                 ),
-              ),
+                onPressed: () {
+                  setState(() {
+                    Start_trip();
+                    visible = true;
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => HomeScreen()),
+                    );
+                  });
+                },
+              );
+
+              Widget continueButton = TextButton(
+                child: Text(
+                  "لا",
+                  style: TextStyle(
+                      color: HexColor('#BD0006'),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20),
+                ),
+                onPressed: () {
+                  Navigator.of(context, rootNavigator: true).pop('dialog'); // Close the dialog
+                },
+              );
+
+              // Show the dialog
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text(
+                      "بداية الرحلة",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20),
+                    ),
+                    content: Text(
+                      "هل تريد أن تبدأ الرحلة الآن؟",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20),
+                    ),
+                    actions: [
+                      cancelButton,
+                      continueButton,
+                    ],
+                  );
+                },
+              );
+            },
+            child: Text(
+              "أبدأ الرحلة",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: MediaQuery.of(context).size.width * 0.1),
+                  ),
+                ),
+              ],
             ),
           ),
-          body: Container(
-              child: Align(
-            alignment: Alignment.center,
-              child: Column(
-
-                children: [
-                  Lottie.asset('assets/images/lottie2.json'),
-              ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary:HexColor('#BD0006'),
-                    shape:RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(10.0),
-                    ),
-                  ),
-
-                  onPressed: () {
-                    // set up the buttons
-                    Widget cancelButton = TextButton(
-                      child: Text("نعم",style: TextStyle(
-                          color:  HexColor('#BD0006'),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20),),
-                      onPressed: () {
-                        setState(() {
-                          Start_trip();
-                          visible = true;
-                          Navigator.of(context).push(new MaterialPageRoute(
-                              builder: (context) => HomeScreen()));
-                        });
-
-                      },
-                    );
-                    Widget continueButton = TextButton(
-                      child: Text("لا",style: TextStyle(
-                          color:  HexColor('#BD0006'),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20)),
-                      onPressed: () {
-                        Navigator.of(context, rootNavigator: true).pop('dialog');
-                      },
-                    );
-
-                    // set up the AlertDialog
-                    AlertDialog alert = AlertDialog(
-                      title: Text("بدايه الرحله",style: TextStyle(
-                          color:  Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20)),
-                      content: Text("هل تريد أن تبدأ الرحله ألان؟",style: TextStyle(
-                          color:   Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20)),
-                      actions: [
-                        cancelButton,
-                        continueButton,
-                      ],
-                    );
-
-                    // show the dialog
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return alert;
-                      },
-                    );
-                  },
-                  child: Text(
-                    "أبدأ الرحله",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: MediaQuery.of(context).size.width*0.1),
-                  ),
-              ),
-            ],
-              ),
-          ))),
+        ),
+      ),
     );
   }
   var data = [];

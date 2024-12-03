@@ -66,7 +66,6 @@ class _SplashScreenState extends State<SplashScreen> {
     setState(() {
       loginToken = obtainedToken! ;
     });
-
     //print(loginToken);
   }
 
@@ -74,30 +73,27 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
+        body: Stack(
               children: [
-                CircleAvatar(
-                  backgroundColor: Colors.transparent,
-                  radius: 120.0,
-                  child: Image.asset('assets/images/logo_splash.png'),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 50.0, bottom: 250),
-                  child: CircularProgressIndicator(
-                    color: Colors.red,
-                    backgroundColor: Colors.white,
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
-      );
-    }
+                      Container(
+                        width: double.infinity,
+                        height: double.infinity,
+                        child: Image.asset(
+                          'assets/images/splash_2.png',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      Center(
+                        child: Image.asset(
+                          'assets/images/logo_splash.png',
+                          width: 400.0,
+                          height: 400.0,
+                        ),
+                      ),
+                    ],
+                   ),
+                 );
+               }
 
   var data = [];
   List<MainOh> results = [];

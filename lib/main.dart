@@ -152,7 +152,6 @@ class _MyAppState extends State<MyApp> {
                               initTimer();
                             });
 
-
                           }, child: Text("Refresh",style: TextStyle(
                           fontSize: 16,
                           color:Colors.blue,
@@ -163,14 +162,8 @@ class _MyAppState extends State<MyApp> {
                 ),
               );
             }
-
-
           },
         )
     );
   }
-
-
-
-
 }
