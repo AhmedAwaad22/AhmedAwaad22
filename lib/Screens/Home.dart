@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:drivercic/Models/BuslistDriver.dart';
 import 'package:drivercic/Models/endTrip.dart';
 import 'package:drivercic/Models/startTrip.dart';
+import 'package:drivercic/Screens/Splash.dart';
 import 'package:drivercic/Screens/no_trip_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -385,9 +386,11 @@ void _showEndTripDialog(BuildContext context) {
 
               await endTrip();
 
-              Navigator.pushReplacement(
+              Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(builder: (context) => noTrip()),
+              (Route<dynamic> Route) => false,
+              
               );
             },
             child: Text(
@@ -511,20 +514,17 @@ void _showEndTripDialog(BuildContext context) {
   }
 
 Future<List<EndTrip>> endTrip() async {
-  print("TesssssssssssssssssssssT");
   var url = Uri.parse(urlList3);
   try {
-    print("الرحلة تم إنهاؤها بنجاح");
 
-    // إظهار مؤشر التحميل
     setState(() {
       visible = true;
     });
 
+
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? username = prefs.getString('username');
     
-    // تحقق من وجود username
     if (username == null) {
       print("لا يوجد username في SharedPreferences");
       setState(() {
@@ -540,7 +540,8 @@ Future<List<EndTrip>> endTrip() async {
     if (response.statusCode == 200) {
       data_end = json.decode(response.body);
       results3 = data_end.map((e) => EndTrip.fromJson(e)).toList();
-      print("البيانات تم تحميلها بنجاح");
+      print("TesssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssT");
+
     } else {
       print("خطأ في استجابة الخادم: ${response.statusCode}");
     }
@@ -548,7 +549,6 @@ Future<List<EndTrip>> endTrip() async {
     print('خطأ أثناء تنفيذ طلب endTrip: $e');
   }
 
-  // إخفاء مؤشر التحميل
   setState(() {
     visible = false;
   });
